@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A-Frame Laptop Model</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene background="color: #ECECEC">
+
+      <!-- カメラ -->
+      <a-entity position="0 1.6 4">
+        <a-camera></a-camera>
+      </a-entity>
+
+      <!-- ライト -->
+      <a-entity light="type: ambient; intensity: 0.6"></a-entity>
+      <a-entity light="type: directional; intensity: 0.8" position="2 4 3"></a-entity>
+
+      <!-- ラップトップ全体 -->
+      <a-entity id="laptop" position="0 1 0">
+
+        <!-- ====== ベース（下部筐体） ====== -->
+        <a-box 
+          position="0 0 0"
+          width="3"
+          height="0.15"
+          depth="2"
+          material="color: #C0C0C0; metalness:0.8; roughness:0.3;">
+        </a-box>
+
+        <!-- 側面USBポート（左） -->
+        <a-box position="-1.5 0.02 -0.3" width="0.05" height="0.05" depth="0.3" color="#222"></a-box>
+        <a-box position="-1.5 0.02 0.2" width="0.05" height="0.05" depth="0.3" color="#222"></a-box>
+
+        <!-- トラックパッド -->
+        <a-box 
+          position="0 -0.02 0.5"
+          width="0.9"
+          height="0.02"
+          depth="0.6"
+          material="color:#B0B0B0; metalness:0.5;">
+        </a-box>
+
+        <!-- キーボードベース -->
+        <a-box 
+          position="0 0.05 -0.2"
+          width="2.6"
+          height="0.02"
+          depth="1.2"
+          color="#444">
+        </a-box>
+
+        <!-- キー（代表キーのみ規則配置） -->
+        <a-entity id="keys">
+          <script>
+            AFRAME.registerComponent('generate-keys', {
+              init: function () {
+                const rows = 5;
+                const cols = 12;
+                const spacingX = 0.18;
+                const spacingZ = 0.18;
+
+                for (let r = 0; r < rows; r++) {
+                  for (let c = 0; c < cols; c++) {
+                    const key = document.createElement('a-box');
+                    key.setAttribute('width', 0.15);
+                    key.setAttribute('height', 0.03);
+                    key.setAttribute('depth', 0.15);
+                    key.setAttribute('color', '#222');
+                    key.setAttribute('position', 
+                      `${-1 + c * spacingX} 0.08 ${-0.8 + r * spacingZ}`);
+                    this.el.appendChild(key);
+                  }
+                }
+              }
+            });
+          </script>
+          <a-entity generate-keys></a-entity>
+        </a-entity>
+
+        <!-- ====== ディスプレイ部 ====== -->
+        <a-entity position="0 0.8 -1.5" rotation="-30 0 0">
+
+          <!-- ベゼル -->
+          <a-box 
+            width="3"
+            height="1.8"
+            depth="0.1"
+            material="color: #C0C0C0; metalness:0.8; roughness:0.3;">
+          </a-box>
+
+          <!-- 画面 -->
+          <a-box 
+            position="0 0 0.06"
+            width="2.7"
+            height="1.5"
+            depth="0.02"
+            material="color:#000; emissive:#111;">
+          </a-box>
+
+          <!-- カメラ穴 -->
+          <a-sphere 
+            position="0 0.85 0.06"
+            radius="0.03"
+            color="#111">
+          </a-sphere>
+
+        </a-entity>
+
+        <!-- ヒンジ -->
+        <a-cylinder 
+          position="0 0.05 -1"
+          rotation="0 0 90"
+          radius="0.05"
+          height="3"
+          color="#888">
+        </a-cylinder>
+
+      </a-entity>
+
+      <!-- 床 -->
+      <a-plane 
+        rotation="-90 0 0"
+        width="20"
+        height="20"
+        color="#DDDDDD">
+      </a-plane>
+
+    </a-scene>
+  </body>
+</html>
